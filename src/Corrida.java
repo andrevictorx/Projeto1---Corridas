@@ -103,7 +103,7 @@ public class Corrida implements Comparable<Corrida>{
 	public int compareTo(Corrida c) {
 		if ((this.distancia - c.distancia) != 0)
 			return this.distancia - c.distancia;
-		return this.nome.compareTo(c.nome.compareToIgnoreCase(nome))
+		return this.nome.compareToIgnoreCase(c.nome);
 		
 	}
 	// o compareTo implementa a comparação do atributo escolhido
