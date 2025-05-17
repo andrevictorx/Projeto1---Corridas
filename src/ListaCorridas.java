@@ -41,20 +41,6 @@ public class ListaCorridas implements Iterable<Corrida>{
 		return lc.size();
 	}
 	
-	public void sortAZ() {
-		// ordem natural de nome A..Z
-		// o sort, método static da Collections,
-		// chama o compareTo da Corrida, por isso ela sabe como comparar
-		// dois objetos do classe Corrida, e assim ordena o ArrayList
-		Collections.sort(lc);
-	}
-	
-	public void sortZA() {
-		// reverseorder é um comparator
-		// que retorna o contrario da ordem natural, portanto de Z..A
-		Collections.sort(lc, Collections.reverseOrder());
-		// o sort com este comparator, fara de Z..a
-	}
 	
 	public void sortCorridaCronologica() {
 		 // ordenar lista idade descendente
@@ -71,7 +57,7 @@ public class ListaCorridas implements Iterable<Corrida>{
 		});
 	}
 	
-	public void sortAniversariosAno() {
+	public void sortDistancia() {
 		// ordenar pela nascimento nos meses
 		// usamos getDayOfYear (1..365) que incorpora dia e mês
 		Collections.sort(lc, new Comparator<Corrida>() {
@@ -79,15 +65,7 @@ public class ListaCorridas implements Iterable<Corrida>{
 			// e classe anônima (uso específico, uma vez etc)
 			@Override
 			public int compare(Corrida c1, Corrida c2) {
-				int d1 = c1.getDataCorrida().getDayOfYear();
-				int d2 = c2.getDataCorrida().getDayOfYear();
-				if (d1 != d2) // quando mesmo dia, ordem alfabética
-					return Integer.compare(d1, d2);
-				// ver sobre wrappers
-				// https://www.w3schools.com/java/java_wrapper_classes.asp
-				// https://docs.oracle.com/javase/tutorial/java/data/autoboxing.html
-				else
-					return c1.compareTo(c2); // vem lá da Corrida
+				return c1.getDistancia().compareTo(c2.getDistancia());
 			}
 			
 		});

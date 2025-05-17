@@ -11,8 +11,8 @@ public class Corrida implements Comparable<Corrida>{
 	// nome é uma variável de instância privada
 	private String nome;
 	private LocalDate dataCorrida;
-	private Integer distancia;
-	private Integer tempo;
+	private int distancia;
+	private int tempo;
 	
 	// o private garante o ENCAPSULAMENTO da classe
 
@@ -87,13 +87,6 @@ public class Corrida implements Comparable<Corrida>{
 		return dataCorrida;
 	}
 	
-	public String getDataNascBR() {
-		String data = dataCorrida.getDayOfMonth() + "/"
-				+ dataCorrida.getMonthValue() + "/"
-				+ dataCorrida.getYear();
- 		return data;
-	}
-
 	// exemplo de setter com sobrecarga
 	public void setDataCorrida(LocalDate dataCorrida) {
 		// normalmente em um setter se avaliam regras de negocio
@@ -108,9 +101,10 @@ public class Corrida implements Comparable<Corrida>{
 	@Override
 	// compareTO compara os dados de this (este objeto) com o que veio no parâmetro
 	public int compareTo(Corrida c) {
-		return this.nome.compareToIgnoreCase(c.nome);
-		// como havia um compate da classe String pronto,
-		// não foi preciso comparar caracteres, apenas chamar o pronto
+		if ((this.distancia - c.distancia) != 0)
+			return this.distancia - c.distancia;
+		return this.nome.compareTo(c.nome.compareToIgnoreCase(nome))
+		
 	}
 	// o compareTo implementa a comparação do atributo escolhido
 	// como sendo a ORDEM NATURAL para objetos desta classe
@@ -123,13 +117,11 @@ public class Corrida implements Comparable<Corrida>{
 	// mesmo NOME e mesma ASSINATURA
 	@Override // decorator
 	public String toString() {
-		String string =  distancia + "m - " + nome + " - ";
+		String string = "";
 		// teste da data de nascimento default
 		if (dataCorrida.getYear() != 1800) // poderia ser com null, caso atributo vazio
-			string += dataCorrida + " - " + tempo + "minutos"; 
-		else string += " (sem data nascimento)";
-		
-		return string;
+			return string += dataCorrida + " - " +  nome + " - " + distancia + " m - " + tempo + " minutos"; 
+		return string += "Sem data cadastrada" + " - " +  nome + " - " + distancia + "m - " + tempo + " minutos";
 	}
 
 
