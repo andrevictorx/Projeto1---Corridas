@@ -1,21 +1,12 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Principal {
 	
-	// static indica que scanner e lc são variáveis de classe
-	// ou seja, não precisa de objeto desta classe para existirem
 	private static Scanner scanner = new Scanner(System.in);
-	
-	// passando a usar a classe ListaCorridas que encapsula sua ED
-	private static ListaCorridas lc = new ListaCorridas("Amigos da faculdade"); 
+	private static ListaCorridas lc = new ListaCorridas("Minhas Corridas"); 
 
 	public static void main(String[] args) {
 		int opcao;
@@ -31,7 +22,7 @@ public class Principal {
 			System.out.println("   3 - procurar Corrida por nome");
 			System.out.println("   4 - ordenar corridas por distância");
 			System.out.println("   5 - mostrar resumo de desempenho");
-			System.out.println("   6 - remover Corrida");			
+			System.out.println("   6 - remover Corrida");		
 			System.out.print("\nOpcao: ");
 
 			opcao = scanner.nextInt(); // deixa um Enter no buffer do teclado
@@ -88,15 +79,9 @@ public class Principal {
 		return Corrida;
 	}
 	
-	// este método de classe, tem acesso ao arraylist lc, que é um atributo de classe
-	// portanto, não foi necessário passar por parâmetro
 	private static void mostrarLista() {
 		System.out.println("\n------- Lista de Corridas -------\n");
 		
-		// LOOP estilo 1 -----------------------------------------
-		// navegar pelo ArrayList usando i e size, i-éssimo objeto
-		// sentimento físico de posição que é o índice
-		// --------------------------------------------------------
 		for(int i = 0; i < lc.getSize(); i++) {
 			System.out.println(lc.getCorrida(i)); // devolve o objeto da i-éssima posição
 		}
@@ -104,8 +89,8 @@ public class Principal {
 
 	private static void resumoDesempenho() {
 		int quantidade_corridas = lc.getSize();
-		int distancia_total = 0; // em metros
-		int tempo_total = 0;     // em minutos
+		int distancia_total = 0;
+		int tempo_total = 0;  
 		int tempo_medio_por_corrida = 0;
 		float pace_medio;
 
@@ -139,10 +124,10 @@ public class Principal {
 	private static void popularLista() {
 		lc.addCorrida(new Corrida("Corrida de São Silvestre",13, 5, 2000,15000,90));
 		lc.addCorrida(new Corrida("Maratona de Curitiba", 28, 2, 2007,5000,90));
-		lc.addCorrida(new Corrida ("Zureta dos Campos", 5, 2, 2007,15000,90));
-		lc.addCorrida(new Corrida ("Beltrana dos Lagos", 28, 2, 2025,15000,90));
+		lc.addCorrida(new Corrida ("Meia Maratona do Rio de Janeiro", 18, 6, 2023,21000,130));
+		lc.addCorrida(new Corrida ("Maratona de Boston", 28, 2, 2025,42195,90));
 		lc.addCorrida(new Corrida());
-		lc.addCorrida(new Corrida("Maratona de São Paulo", LocalDate.of(2023, 10, 1),21000,200));
+		lc.addCorrida(new Corrida("Maratona de São Paulo", LocalDate.of(2023, 6, 1),42195,240));
 
 	}
 	
@@ -153,15 +138,9 @@ public class Principal {
 		System.out.print("Nome da corrida: ");
 		nome = scanner.nextLine();
 		
-		// LOOP estilo 2 -----------------------------------------
-		// Para Cada Corrida da ListaCorridas
-		// for each 
-		// funcionado pois a nova classe implements Iterable e possui o método iterator
-		// --------------------------------------------------------
 		for (Corrida Corrida : lc) {
-			//System.out.printf("Comparando %s com %s\n", nome, Corrida.getNome());
 			if (Corrida.getNome().toUpperCase().contains(nome.toUpperCase())) {
-				System.out.println("Achei: "+ Corrida); // chama toString de modo transparente
+				System.out.println("Achei: "+ Corrida);
 			}
 		}
 	}
@@ -171,17 +150,9 @@ public class Principal {
 		System.out.println("\n------- Remover Corrida -------\n");
 		System.out.print("Qual nome a remover da lista: ");
 		nome = scanner.nextLine();
-		
-		// LOOP estilo 3 -----------------------------------------
-		// usando while com um ITERATOR
-		// olhar o design pattern em https://refactoring.guru/pt-br/design-patterns/iterator 
-		// também não se preocupa com a posição
-		// vai pedindo até acabar
-		// --------------------------------------------------------
 		Iterator<Corrida> it = lc.iterator();
 		while (it.hasNext()) {
-		// enquanto tem alguém na iteração da lista?
-			Corrida Corrida = it.next(); // manda o cidadão
+			Corrida Corrida = it.next(); 
 			if (Corrida.getNome().toUpperCase().contains(nome.toUpperCase())) {
 				System.out.println("Achei a Corrida: "+ Corrida.getNome());
 				System.out.print("Apagar <S/N>: ");
