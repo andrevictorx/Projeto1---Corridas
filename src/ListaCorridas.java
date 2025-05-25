@@ -23,6 +23,7 @@ public class ListaCorridas implements Iterable<Corrida>{
 	
 	public void addCorrida(Corrida Corrida) {
 		lc.add(Corrida);
+		System.out.println("Corrida cadastrada com sucesso!");
 	}
 	
 	public void removeCorrida(int i) {
@@ -37,13 +38,17 @@ public class ListaCorridas implements Iterable<Corrida>{
 	public void sortCorridaCronologica() {
 		Collections.sort(lc);
 	}
+
+	public void sortCorridaCronologicaInverse(){
+		Collections.sort(lc, Collections.reverseOrder());
+	}
 	
 	public void sortDistancia() {
 		Collections.sort(lc, new Comparator<Corrida>() {
 			@Override
 			public int compare(Corrida c1, Corrida c2) {
-				if ((c1.getDistancia() - c2.getDistancia()) != 0)
-					return c1.getDistancia() - c2.getDistancia();
+				if ((c2.getDistancia() - c1.getDistancia()) != 0)
+					return c2.getDistancia() - c1.getDistancia();
 				return c1.getNome().compareToIgnoreCase(c2.getNome());
 			}
 			

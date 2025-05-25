@@ -18,11 +18,12 @@ public class Principal {
 			System.out.println("\n------- Menu -------\n");
 			System.out.println("   0 - sair");
 			System.out.println("   1 - cadastrar nova Corrida");
-			System.out.println("   2 - listar corridas em ordem cronológica");
-			System.out.println("   3 - procurar Corrida por nome");
-			System.out.println("   4 - ordenar corridas por distância");
-			System.out.println("   5 - mostrar resumo de desempenho");
-			System.out.println("   6 - remover Corrida");		
+			System.out.println("   2 - listar corridas em ordem cronológica (MAIS ANTIGA -> MAIS RECENTE)");
+			System.out.println("   3 - listar corridas em ordem cronológica (MAIS RECENTE -> MAIS ANTIGA )");
+			System.out.println("   4 - procurar Corrida por nome");
+			System.out.println("   5 - listar corridas por distância");
+			System.out.println("   6 - mostrar resumo de desempenho");
+			System.out.println("   7 - remover Corrida");		
 			System.out.print("\nOpcao: ");
 
 			opcao = scanner.nextInt(); // deixa um Enter no buffer do teclado
@@ -32,23 +33,29 @@ public class Principal {
 					lc.addCorrida(novaCorrida());
 					break;
 				case 2:
+					System.out.println(">> Lista de corridas por data (MAIS ANTIGA -> MAIS RECENTE)");
 					lc.sortCorridaCronologica();
 					mostrarLista();
 					break;
 				case 3:
-					pesquisarCorrida();
+					System.out.println(">> Lista de corridas por data (MAIS RECENTE -> MAIS ANTIGA)");
+					lc.sortCorridaCronologicaInverse();
+					mostrarLista();
+					break;
+				case 4:
+					procurarCorrida();
 					break;
 					
-				case 4: {
+				case 5: {
 					lc.sortDistancia();
 					mostrarLista();
 					break;
 				}
-				case 5: { 
+				case 6: { 
 					resumoDesempenho();
 					break;
 				}
-				case 6: 
+				case 7: 
 					removerCorrida();
 					break;
 			}
@@ -62,7 +69,7 @@ public class Principal {
 		String dataCorrida;
 		int distancia;
 		int tempo;
-		System.out.println("\n------- Nova Corrida -------\n");
+		System.out.println(">> Nova Corrida");
 		System.out.print("Digite o nome da corrida: ");
 		nome = scanner.nextLine();
 		System.out.print("Digite a data da corrida (dd/MM/yyyy): ");
@@ -80,8 +87,6 @@ public class Principal {
 	}
 	
 	private static void mostrarLista() {
-		System.out.println("\n------- Lista de Corridas -------\n");
-		
 		for(int i = 0; i < lc.getSize(); i++) {
 			System.out.println(lc.getCorrida(i)); // devolve o objeto da i-éssima posição
 		}
@@ -109,7 +114,7 @@ public class Principal {
 			int pace_minutos = (int) pace_medio;
 			int pace_segundos = (int) ((pace_medio - pace_minutos) * 60);
 
-			System.out.println("Resumo de desempenho");
+			System.out.println(">> Resumo de desempenho");
 			System.out.println("Número de corridas: " + quantidade_corridas);
 			System.out.println("Distância total percorrida: " + distancia_total + " m");
 			System.out.println("Tempo total gasto: " + tempo_total + " minutos");
@@ -125,40 +130,50 @@ public class Principal {
 		lc.addCorrida(new Corrida("Corrida de São Silvestre",13, 5, 2000,15000,90));
 		lc.addCorrida(new Corrida("Maratona de Curitiba", 28, 2, 2007,5000,90));
 		lc.addCorrida(new Corrida ("Meia Maratona do Rio de Janeiro", 18, 6, 2023,21000,130));
-		lc.addCorrida(new Corrida ("Maratona de Boston", 28, 2, 2025,42195,90));
+		lc.addCorrida(new Corrida ("Maratona de Boston", 28, 2, 2025,42195,235));
 		lc.addCorrida(new Corrida());
 		lc.addCorrida(new Corrida("Maratona de São Paulo", LocalDate.of(2023, 6, 1),42195,240));
 
 	}
 	
 	
-	private static void pesquisarCorrida() {
+	private static void procurarCorrida() {
 		String nome;
-		System.out.println("\n------- Pesquisar Corrida -------\n");
-		System.out.print("Nome da corrida: ");
+		System.out.println(">> Procurar corrida");
+		System.out.print("Digite parte do nome da corrida a buscar: ");
 		nome = scanner.nextLine();
-		
+		int achados = 0;
+
 		for (Corrida Corrida : lc) {
 			if (Corrida.getNome().toUpperCase().contains(nome.toUpperCase())) {
-				System.out.println("Achei: "+ Corrida);
+				achados += 1;
+				if(achados==1){
+					System.out.println("Resultados encontados:");
+				}
+				System.out.println(Corrida);
+				
 			}
+		}
+		if (achados == 0){
+			System.out.println("Não encontrei nenhum resultado.");
 		}
 	}
 	
 	private static void removerCorrida() {
 		String nome;
-		System.out.println("\n------- Remover Corrida -------\n");
-		System.out.print("Qual nome a remover da lista: ");
+		System.out.println(">> Remover Corrida");
+		System.out.print("Digite parte do nome da corrida a excluir: ");
 		nome = scanner.nextLine();
 		Iterator<Corrida> it = lc.iterator();
 		while (it.hasNext()) {
 			Corrida Corrida = it.next(); 
 			if (Corrida.getNome().toUpperCase().contains(nome.toUpperCase())) {
-				System.out.println("Achei a Corrida: "+ Corrida.getNome());
-				System.out.print("Apagar <S/N>: ");
+				System.out.println("Ecntontrei: "+ Corrida.getNome());
+				System.out.print("Deseja excluir <S/N>: ");
 				String r = scanner.nextLine();
 				if (r.toUpperCase().charAt(0) == 'S') {
 					it.remove();
+					System.out.println("Corrida excluída com sucesso!");
 				}
 			}
 		}
