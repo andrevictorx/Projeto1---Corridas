@@ -168,7 +168,7 @@ public class Principal {
 		while (it.hasNext()) {
 			Corrida Corrida = it.next(); 
 			if (Corrida.getNome().toUpperCase().contains(nome.toUpperCase())) {
-				System.out.println("Ecntontrei: "+ Corrida.getNome());
+				System.out.println("Encontrei: "+ Corrida.getNome());
 				System.out.print("Deseja excluir <S/N>: ");
 				String r = scanner.nextLine();
 				if (r.toUpperCase().charAt(0) == 'S') {
